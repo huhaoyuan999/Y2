@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserMapper">
+
+    <select id="counts" resultType="int">
+        SELECT COUNT(1) FROM smbms_user
+    </select>
+
+    <delete id="deleteID">
+         DELETE FROM smbms_user WHERE id = #{id}
+    </delete>
+
+    <!--<insert id="insertBookInfo">-->
+    <!--INSERT INTO bookinfo(ISBN,`name`,price,discount,publisher) VALUES(#{ISBN},#{name},#{price},#{discount},#{publisher});-->
+    <!--</insert>-->
+
+    <update id="updateSetInfo">
+        UPDATE smbms_user SET userName = #{userName} WHERE id = #{id}
+    </update>
+
+
+    <resultMap id="selectInfo" type="com.mybatis.pojo.User">
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <result property="birthday" column="birthday"/>
+    </resultMap>
+
+    <select id="selectAllInfo" resultMap="selectInfo">
+            SELECT * FROM `smbms_user`;
+    </select>
+
+</mapper>
