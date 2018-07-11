@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserMapper">
+
+    <select id="counts" resultType="int">
+        SELECT COUNT(1) FROM smbms_user
+    </select>
+
+    <delete id="deleteID">
+         DELETE FROM smbms_user WHERE id = #{id}
+    </delete>
+
+    <!--<insert id="insertBookInfo">-->
+    <!--INSERT INTO bookinfo(ISBN,`name`,price,discount,publisher) VALUES(#{ISBN},#{name},#{price},#{discount},#{publisher});-->
+    <!--</insert>-->
+
+    <update id="updateSetInfo">
+        UPDATE smbms_user SET userName = #{userName} WHERE id = #{id}
+    </update>
+
+
+    <resultMap id="selectInfo" type="com.mybatis.pojo.User">
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <!--<result property="birthday" column="birthday"/>-->
+    </resultMap>
+
+    <select id="selectAllInfo" resultMap="selectInfo">
+            SELECT * FROM `smbms_user`;
+    </select>
+
+    <resultMap id="selectRootI" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userCode" column="userCode"/>
+        <result property="phone" column="phone"/>
+        <association property="role" column="com.mybatis.pojo.Role">
+            <id property="id" column="r_id"/>
+            <result property="roleName" column="roleName"/>
+        </association>
+    </resultMap>
+    <select id="listRootInfo" resultMap="selectRootI">
+        SELECT u.*,r.id as r_id,r.roleName,r.roleCode FROM `smbms_user` where u.userRole=#{userRole} and u.userRole=r.id
+    </select>
+
+
+    <select id="listAllInfos" resultType="com.mybatis.pojo.User">
+        select * from smbms_user
+    </select>
+
+    <!--<select id="getUserList" resultType="com.mybatis.pojo.User">-->
+    <!--SELECT * FROM smbms_user u,smbms_role r-->
+    <!--<where>-->
+    <!--<if test="userName!=null and userName!=''">-->
+    <!--AND u.userName LIKE CONCAT('%',#{userName},'%')-->
+    <!--</if>-->
+    <!--<if test="userRole!=null and userRole!=''">-->
+    <!--AND u.userRole=#{userRole}-->
+    <!--</if>-->
+    <!--AND u.userRole=r.id-->
+    <!--</where>-->
+    <!--</select>-->
+
+    <select id="getUserList" resultType="com.mybatis.pojo.User">
+        SELECT * FROM smbms_user u,smbms_role r
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="userName!=null and userName!=''">
+                AND u.userName LIKE CONCAT('%',#{userName},'%')
+            </if>
+            <if test="userRole!=null and userRole!=''">
+                AND u.userRole=#{userRole}
+            </if>
+            AND u.userRole=r.id
+        </trim>
+    </select>
+
+    <update id="updateUser" parameterType="com.mybatis.pojo.User">
+        UPDATE smbms_user SET `userName`=#{userName},`userCode`=#{userCode},`userPassword`=#{userPassword},`gender`=#{gender},`phone`=#{phone},`address`=#{address}
+         WHERE id=#{id}
+    </update>
+
+
+    <!--<update id="updateUserName" parameterType="com.mybatis.pojo.User">-->
+        <!--UPDATE smbms_user-->
+        <!--<set>-->
+            <!--<if test="userName!=null">userName=#{userName},</if>-->
+            <!--<if test="userCode!=null">userCode=#{userCode},</if>-->
+            <!--<if test="userPassword!=null">`userPassword`=#{userPassword},</if>-->
+            <!--<if test="gender!=null">gender=#{gender},</if>-->
+            <!--<if test="address!=null">`address`=#{address},</if>-->
+        <!--</set>-->
+        <!--WHERE id=#{id}-->
+    <!--</update>-->
+
+    <update id="updateUserName" parameterType="com.mybatis.pojo.User">
+        UPDATE smbms_user
+        <trim prefix="set" suffix="WHERE id=#{id}" suffixOverrides=",">
+            <if test="userName!=null">userName=#{userName},</if>
+            <if test="userCode!=null">userCode=#{userCode},</if>
+            <if test="userPassword!=null">`userPassword`=#{userPassword},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+            <if test="address!=null">`address`=#{address},</if>
+        </trim>
+    </update>
+
+</mapper>
