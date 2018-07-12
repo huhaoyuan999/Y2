@@ -24,5 +24,7 @@
     </environments>
     <mappers>
         <mapper resource="dao/UserMapper.xml"></mapper>
+        <mapper resource="dao/ProviderMapper.xml"></mapper>
+        <mapper resource="dao/RoleMapper.xml"></mapper>
     </mappers>
 </configuration>

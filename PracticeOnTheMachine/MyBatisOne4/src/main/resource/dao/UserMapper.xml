@@ -82,18 +82,6 @@
     </update>
 
 
-    <!--<update id="updateUserName" parameterType="com.mybatis.pojo.User">-->
-        <!--UPDATE smbms_user-->
-        <!--<set>-->
-            <!--<if test="userName!=null">userName=#{userName},</if>-->
-            <!--<if test="userCode!=null">userCode=#{userCode},</if>-->
-            <!--<if test="userPassword!=null">`userPassword`=#{userPassword},</if>-->
-            <!--<if test="gender!=null">gender=#{gender},</if>-->
-            <!--<if test="address!=null">`address`=#{address},</if>-->
-        <!--</set>-->
-        <!--WHERE id=#{id}-->
-    <!--</update>-->
-
     <update id="updateUserName" parameterType="com.mybatis.pojo.User">
         UPDATE smbms_user
         <trim prefix="set" suffix="WHERE id=#{id}" suffixOverrides=",">
@@ -104,5 +92,150 @@
             <if test="address!=null">`address`=#{address},</if>
         </trim>
     </update>
+
+    <!--根据角色列表，获取角色列表下的信息-->
+    <resultMap id="foreachInfo" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+    </resultMap>
+    <select id="getClomnInfo" resultMap="foreachInfo">
+        SELECT * FROM smbms_user WHERE userRole IN
+        <foreach collection="array" item="suzu" open="(" separator="," close=")">
+            #{suzu}
+        </foreach>
+    </select>
+
+    <select id="getListInfo" resultMap="foreachInfo">
+        SELECT * FROM smbms_user WHERE userRole IN
+        <foreach collection="list" item="suzu" open="(" separator="," close=")">
+            #{suzu}
+        </foreach>
+    </select>
+
+    <select id="getListUserInfo" resultMap="foreachInfo">
+        SELECT * FROM smbms_user WHERE gender=#{gender9} and userRole IN
+        <foreach collection="roleIds9" item="suzu" open="(" separator="," close=")">
+            #{suzu}
+        </foreach>
+    </select>
+
+    <select id="getListInfoMap" resultMap="foreachInfo">
+        SELECT * FROM smbms_user WHERE userRole IN
+        <foreach collection="key9" item="suzu" open="(" separator="," close=")">
+            #{suzu}
+        </foreach>
+    </select>
+
+
+    <select id="getListInfoChoose" resultMap="foreachInfo">
+        SELECT * FROM smbms_user WHERE 1=1
+        <choose>
+            <when test="id!=null and id!=''">AND id=#{id}</when>
+            <when test="userCode!=null and userCode!=''">AND userCode=#{userCode}</when>
+            <when test="userName!=null and userName!=''">AND userName=#{userName}</when>
+            <otherwise>AND userPassword=#{userPassword}</otherwise>
+        </choose>
+    </select>
+
+    <select id="getListInfoListLimit" resultType="com.mybatis.pojo.User">
+        SELECT * FROM smbms_user LIMIT
+        <if test="current!=null and current!=''">
+            #{current},
+        </if>
+        <if test="pageSize!=null and pageSize!=''">
+            #{pageSize}
+        </if>
+    </select>
+
+    <resultMap id="associationList" type="com.mybatis.pojo.Role">
+        <id property="id" column="r.roleName"/>
+        <result property="roleCode" column="roleCode"/>
+        <result property="roleName" column="roleName"/>
+    </resultMap>
+    <resultMap id="selectListRoles" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <association property="role" javaType="com.mybatis.pojo.Role" resultMap="associationList"/>
+    </resultMap>
+    <select id="getListRoleId" resultMap="selectListRoles">
+        SELECT *,r.id AS r_id,r.roleName FROM smbms_user u,smbms_role r
+        WHERE userRole=#{userRole} AND u.userRole=r.id
+    </select>
+
+
+    <resultMap id="selectAddress" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <collection property="addressList" ofType="com.mybatis.pojo.Address">
+            <id property="id" column="a_id"/>
+            <result property="contact" column="contact"/>
+            <result property="addressDesc" column="addressDesc"/>
+        </collection>
+    </resultMap>
+    <select id="getAddressByUserId" resultMap="selectAddress">
+        SELECT u.*,a.id AS a_id,a.contact,a.addressDesc
+        FROM smbms_user u,smbms_address a
+        WHERE u.id=a.userId AND u.id=1
+    </select>
+
+    <!--根据用户名称获取角色信息-->
+    <resultMap id="infoRoleUser" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <association property="role" javaType="com.mybatis.pojo.Role">
+            <id property="id" column="r_id"/>
+            <result property="roleName" column="roleName"/>
+        </association>
+    </resultMap>
+    <select id="listConcatInfo" resultMap="infoRoleUser">
+        SELECT u.*,r.id as r_id,r.roleName FROM `smbms_user` u,smbms_role r
+        <where>
+            <if test="userName!=null and userName!=''">and u.userName LIKE CONCAT('%',#{userName},'%')</if>
+            <if test="userRole!=null and userRole!=''">AND u.userRole=#{userRole}</if>
+            AND u.userRole=r.id
+        </where>
+    </select>
+
+    <!--根据用户id获取用户地址信息-->
+    <!--<resultMap id="addressInfo" type="com.mybatis.pojo.Address">-->
+        <!--<id property="id" column="a_id"/>-->
+        <!--<result property="contact" column="contact"/>-->
+        <!--<result property="addressDesc" column="addressDesc"/>-->
+    <!--</resultMap>-->
+    <!--<resultMap id="selectUserAdderss" type="com.mybatis.pojo.User">-->
+        <!--<id property="id" column="id"/>-->
+        <!--<result property="userName" column="userName"/>-->
+        <!--<result property="userPassword" column="userPassword"/>-->
+        <!--<collection property="addressList" javaType="com.mybatis.pojo.Address" resultMap="addressInfo"/>-->
+    <!--</resultMap>-->
+    <!--<select id="getIdUserAdderssInfo" resultMap="selectUserAdderss">-->
+        <!--SELECT u.*,a.id as a_id,a.contact,a.addressDesc FROM smbms_user u,smbms_address a-->
+        <!--<where>-->
+            <!--u.id=a.userId-->
+            <!--<if test="id!=null and id!=''">AND u.id=#{id}</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+
+    <resultMap id="selectAddressInfo" type="com.mybatis.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <collection property="addressList" ofType="com.mybatis.pojo.Address">
+            <id property="id" column="a_id"/>
+            <result property="contact" column="contact"/>
+            <result property="addressDesc" column="addressDesc"/>
+        </collection>
+    </resultMap>
+    <select id="getIdUserAdderssInfo" resultMap="selectAddressInfo">
+        SELECT u.*,a.id AS a_id,a.contact,a.addressDesc
+        FROM smbms_user u,smbms_address a
+        WHERE u.id=a.userId AND u.id=1
+    </select>
+
 
 </mapper>
