@@ -18,8 +18,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-        <context:component-scan base-package="com.dao,com.service"></context:component-scan>
-        <bean class="com.aop.AroundLogger"></bean>
+        <context:component-scan base-package="com.dao,com.service,com.aop"></context:component-scan>
+        <!--<bean class="com.aop.AroundLogger"></bean>-->
         <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
     <!--&lt;!&ndash;声明Dao实现类&ndash;&gt;-->

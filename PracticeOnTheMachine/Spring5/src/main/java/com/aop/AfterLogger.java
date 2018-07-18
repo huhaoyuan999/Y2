@@ -5,11 +5,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 /**
  * 增强类（最终增强）
  */
 @Aspect
+//@Component
 public class AfterLogger {
     private static final Logger log = Logger.getLogger(AfterLogger.class);
 
