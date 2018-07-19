@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+
+    <!--查询全部信息-->
+    <resultMap id="selectAll" type="com.pojo.User">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <result property="gender" column="gender"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="userRole" column="userRole"/>
+        <result property="createdBy" column="createdBy"/>
+        <result property="modifyBy" column="modifyBy"/>
+    </resultMap>
+    <select id="selectInfoAll" resultMap="selectAll">
+        SELECT id,userCode,userName,userPassword,gender,phone,address,userRole,createdBy,modifyBy
+        FROM `smbms_user`
+    </select>
+
+    <!--根据Id删除指定信息-->
+    <delete id="deleteInfoID" parameterType="Integer">
+        DELETE FROM smbms_user WHERE id=#{id}
+    </delete>
+
+    <!--修改指定用户名称-->
+    <update id="updateInfoID">
+        UPDATE smbms_user SET userName=#{name} WHERE id=#{id}
+    </update>
+
+    <!--添加新用户-->
+    <insert id="insertInfo" parameterType="com.pojo.User">
+        INSERT  INTO `smbms_user`(`id`,`userCode`,`userName`,`userPassword`,`userRole`,`createdBy`) VALUES
+        (#{id},#{userCode},#{userName},#{userPassword},#{userRole},#{createdBy})
+    </insert>
+
+</mapper>

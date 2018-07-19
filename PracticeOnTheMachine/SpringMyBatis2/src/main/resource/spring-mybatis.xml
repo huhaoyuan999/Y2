@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <!--基础包扫描-->
+    <context:component-scan base-package="com.mapper"/>
+    <!--引入属性文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--数据源配置-->
+    <!--详细配置参考：https://www.mchange.com/projects/c3p0/-->
+    <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource">
+        <!--基本连接信息的配置，出了这些，你可以配置更多的内容-->
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="driverClass" value="${driver}"/>
+        <property name="user" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <!--<property name="acquireRetryAttempts" value="3"/>-->
+        <!--&lt;!&ndash;数据库的连接池最小为5个&ndash;&gt;-->
+        <!--<property name="minPoolSize" value="5"/>-->
+        <!--&lt;!&ndash;连接池上限&ndash;&gt;-->
+        <!--<property name="maxPoolSize" value="30"/>-->
+    </bean>
+
+    <!--会话工厂的配置-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+        <property name="dataSource" ref="dataSource"/>
+        <!--mybatis配置文件引用-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--SQL映射文件配置文件引用-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <!--扫描Mapper接口配置-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--(接口)基础包下自动创建javaBean-->
+        <property name="basePackage" value="com.mapper" />
+        <!--会话工厂-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+
+
+    <!--事务管理注入-->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--引入数据源-->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!--创建事务建议-->
+    <tx:advice   id="transactionAdvice" transaction-manager="transactionManager">
+        <!-- 事务处理的相关值以及它的传播性 -->
+        <tx:attributes>
+            <!-- 查询相关配置为只读 select开头或者get 或者query -->
+            <tx:method name="select*" read-only="true" />
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="query*" read-only="true" />
+            <tx:method name="delete*" propagation="REQUIRED"
+                       rollback-for="Exception" />
+            <tx:method name="update*" propagation="REQUIRED"
+                       rollback-for="Exception" />
+            <tx:method name="insert*" propagation="REQUIRED"
+                       rollback-for="Exception" />
+            <tx:method name="add*" propagation="REQUIRED"
+                       rollback-for="Exception" />
+            <tx:method name="*" propagation="REQUIRED"
+                       rollback-for="Exception" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <!-- 具体在哪个包下或者对哪个方法执行事务(切入点的定义) -->
+        <aop:pointcut expression="execution(* com.service..*.*.*(..))"
+                      id="txCut" />
+        <!--加入事务建议与切入点相连接-->
+        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="txCut" />
+    </aop:config>
+
+</beans>
