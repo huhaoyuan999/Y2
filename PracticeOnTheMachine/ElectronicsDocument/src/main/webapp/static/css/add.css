@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#div1{
+    width: 500px;
+    margin: auto;
+    margin-top: 55px;
+}
+
+table{
+    width: 500px;
+}
+
+th{
+    background-color: paleturquoise;
+}
+
+input[type="text"]{
+    height: 20px;
+    width: 200px;
+    margin: 3px 0px;
+}
+
+span{
+    color: red;
+}
+
+h1{
+    margin: 15px 0px;
+}
+
+input[type="button"]{
+    margin: 8px 0px;
+}
+
+#submit{
+    margin-left: 180px;
+    margin-right: 30px;
+    height: 25px;
+    width: 45px;
+}
+
+#kate{
+    height: 25px;
+    width: 45px;
+}

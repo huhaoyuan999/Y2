@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+
+    <!--新增用户信息-->
+    <insert id="addUserInfo" parameterType="com.pojo.User">
+        INSERT  INTO `smbms_user2`(`id`,`userName`,`userPassword`) VALUES (#{id},#{userName},#{userPassword});
+    </insert>
+
+    <!--查询信息分页显示-->
+    <select id="queryPageInfo" resultType="com.pojo.User">
+        SELECT * FROM `smbms_user2`
+    </select>
+
+</mapper>

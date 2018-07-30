@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 引入 database.properties 文件-->
+    <properties resource="database.properties"/>
+    <!-- 配置mybatis的log实现为LOG4J -->
+    <settings>
+        <setting name="logImpl" value="LOG4J" />
+        <setting name="autoMappingBehavior" value="FULL" />
+    </settings>
+
+
+    <environments default="dev">
+
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <!--支持三种类型 UNPOOLED  POOLED  JNDI-->
+            <dataSource type="POOLED">
+                <!--数据库连接的四项基本属性-->
+                <property name="url" value="${url}"></property>
+                <property name="driver" value="${driver}"></property>
+                <property name="username" value="${user}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--<typeAliases>-->
+        <!--<package name="com.mybatis.pojo"/>-->
+    <!--</typeAliases>-->
+
+    <!-- 将mapper文件加入到配置文件中 -->
+    <mappers>
+        <mapper resource="com/mybatis/dao/UserMapper.xml"/>
+    </mappers>
+
+</configuration>

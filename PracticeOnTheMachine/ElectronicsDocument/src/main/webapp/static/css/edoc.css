@@ -1,0 +1,69 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#all{
+    width: 800px;
+    margin: auto;
+    margin-top: 50px;
+    /*border: solid 1px red;*/
+}
+
+#context{
+    border: solid 2px darkgrey;
+}
+
+#tables{
+    border: solid 1px darkgrey;
+    width: 800px;
+}
+
+#header{
+    margin: 15px 30px;
+}
+
+h1{
+    margin-bottom: 10px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+th{
+    text-align:center;
+    vertical-align:middle;
+    background-color: #E0E0E0;
+}
+
+a{
+    text-decoration:none;
+    color: #069dd5;
+    margin: 0px 8px;
+}
+
+#text2{
+    width: 100px;
+}
+
+#chaxun1{
+    margin-right: 40px;
+    width: 35px;
+}
+
+#chaxun2{
+    margin-right: 50px;
+    width: 35px;
+}
+
+#footer{
+    width: 340px;
+    /*width: auto;*/
+    margin: auto;
+    /*border: solid 1px red;*/
+    margin-top: 15px;
+}

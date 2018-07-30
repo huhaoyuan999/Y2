@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#div1{
+    width: 500px;
+    margin: auto;
+    margin-top: 55px;
+}
+.names{
+    text-align:center;/*设置水平居中*/
+    vertical-align:middle;/*设置垂直居中*/
+}
+
+table{
+    width: 300px;
+}
+
+input[type="text"]{
+    height: 20px;
+    margin: 3px 0px;
+}
+
+h3{
+    text-align:center; /*设置水平居中*/
+    vertical-align:middle;/*设置垂直居中*/
+    margin-bottom: 30px;
+}
+
+#add{
+ margin-left: 60px;
+    margin-right: 30px;
+}
+
+#reset{
+    margin-right: 35px;
+}
+
+#update{
+    margin-left: 60px;
+    margin-right: 30px;
+}
+
+#delete{
+    margin-right: 35px;
+}
