@@ -15,6 +15,10 @@ $("#submit").click(function () {
     //日期格式的正则表达式
     var time = /^\d{4}\-\d{2}\-\d{2}$/;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
     /**
      * 非空判断
      * @type {*|jQuery}
