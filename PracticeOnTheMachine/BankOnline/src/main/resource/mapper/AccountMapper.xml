@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AccountMapper">
+
+    <!--查询是否有此卡号-->
+    <select id="queryCardNoInfo" resultType="int">
+          SELECT COUNT(1) FROM `account` WHERE cardNo=#{cardNo}
+    </select>
+
+    <!--判断卡号跟密码是否正确-->
+    <select id="queryCardNoPassword" resultType="int">
+          SELECT COUNT(1) FROM `account` WHERE cardNo=#{cardNo} AND `password`=#{password}
+    </select>
+
+    <!--判断是否是正常账户-->
+    <select id="queryCardNoPasswordStatus" resultType="int">
+          SELECT COUNT(1) FROM `account` WHERE cardNo=#{cardNo} AND `password`=#{password} AND `status`=#{status}
+    </select>
+
+</mapper>

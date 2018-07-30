@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#context{
+    width: 400px;
+    height: 300px;
+    border: 1px mintcream solid;
+    margin: auto;
+    margin-top: 150px;
+    background-color: mintcream;
+}
+
+#center{
+    width: 230px;
+    height: 180px;
+    border: 1px mintcream solid;
+    margin: auto;
+    margin-top: 50px;
+}
+
+h3{
+    margin-bottom: 15px;
+}
+
+tr{
+    height: 35px;
+}
+
+#submit{
+    margin-left: 75px;
+}

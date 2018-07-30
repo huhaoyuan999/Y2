@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz.mapper.EntryMapper" >
+
+
+    <resultMap id="baseMap" type="com.sz.pojo.Entry">
+        <id property="id" column="id"/>
+        <result property="title" column="title"></result>
+        <result property="summary" column="summary" ></result>
+        <result property="uploadUser" column="uploadUser" ></result>
+        <result property="createDate" column="createdate"></result>
+    </resultMap>
+
+    <select id="listAll" resultMap="baseMap">
+      SELECT t1.`id` as id,t1.`title`,t1.`summary`,t1.`uploaduser`,t1.`createdate`
+        FROM edoc_entry t1
+    </select>
+
+
+    <select id="list" resultMap="baseMap">
+        SELECT t1.`id` as id,t1.`title`,t1.`summary`,t1.`uploaduser`,t1.`createdate`
+        FROM edoc_entry t1
+        <where>
+            <if test="categoryId != null and categoryId gt 0 ">
+                and categoryId = #{categoryId}
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="delete">
+        delete from edoc_entry
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </delete>
+</mapper>
