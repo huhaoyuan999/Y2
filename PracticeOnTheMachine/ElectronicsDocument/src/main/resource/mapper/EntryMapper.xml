@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.EntryMapper">
+
+    <!--按条件查询信息-->
+    <resultMap id="quweryAll" type="com.pojo.Entry">
+        <id property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="title" column="title"/>
+        <result property="summary" column="summary"/>
+        <result property="uploaduser" column="uploaduser"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+    <select id="queryEntryInfo" resultMap="quweryAll">
+        SELECT id,categoryId,title,summary,uploaduser,createdate FROM `edoc_entry`
+        <where>
+            <if test="categoryId !=null and categoryId !=0">
+                AND categoryId=#{categoryId}
+            </if>
+            <if test="title !=null and title !=''">
+                AND title LIKE CONCAT('%',#{title},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--添加信息-->
+    <insert id="addEntryInfo" parameterType="com.pojo.Entry">
+            INSERT  INTO `edoc_entry`(`categoryId`,`title`,`summary`,`uploaduser`,`createdate`)
+            VALUES (#{categoryId},#{title},#{summary},#{uploaduser},#{createdate})
+    </insert>
+
+    <!--根据id删除指定信息-->
+    <delete id="deleteEntryInfo">
+        DELETE FROM edoc_entry WHERE id=#{id}
+    </delete>
+
+    <!--根据ID查询指定信息-->
+    <select id="queryIdInfo" resultMap="quweryAll">
+        SELECT id,categoryId,title,summary,uploaduser,createdate FROM `edoc_entry` WHERE id=#{id}
+    </select>
+
+    <!--修改指定信息-->
+    <update id="updateInfo" parameterType="com.pojo.Entry">
+        UPDATE edoc_entry SET `title`=#{title},`summary`=#{summary},`uploaduser`=#{uploaduser},`createdate`=#{createdate} WHERE id=#{id}
+    </update>
+
+</mapper>
