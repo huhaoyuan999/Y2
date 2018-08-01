@@ -1,6 +1,6 @@
 package com.service;
 
-import org.apache.ibatis.annotations.Param;
+import com.pojo.Account;
 
 /**
  * 账户信息表业务逻辑接口
@@ -28,4 +28,34 @@ public interface AccountService {
      */
     public int queryCardNoPasswordStatus(String cardNo, String password, Integer status);
 
+    /**
+     * 根据卡号查询账户信息
+     *
+     * @param cardNo
+     * @return
+     */
+    public Account queryCardNoAccountInfo(String cardNo);
+
+    /**
+     * 账户转入
+     *
+     * @return
+     */
+    public int UpdateInputEnter(String cardNo, float balance);
+
+    /**
+     * 账户转出
+     *
+     * @return
+     */
+    public int UpdateInputOut(String cardNo, float balance);
+
+    /**
+     * 根据卡号修改密码
+     *
+     * @param cardNo
+     * @param password
+     * @return
+     */
+    public int updateCardNoPassword(String cardNo, String password);
 }

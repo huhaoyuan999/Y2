@@ -23,11 +23,11 @@
                 </tr>
                 <tr>
                     <td>卡号:</td>
-                    <td><input type="text" name="cardNo"/></td>
+                    <td><input type="text" name="cardNo" id="cardNo"/></td>
                 </tr>
                 <tr>
                     <td>密码：</td>
-                    <td><input type="password" name="password"/></td>
+                    <td><input type="password" name="password" id="password"/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="button" value="登入网上银行" id="submit"/></td>

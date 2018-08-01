@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.TransactionMapper">
 
+    <!--添加交易记录信息-->
+    <insert id="insertTransactionInfo" parameterType="com.pojo.Transaction">
+      INSERT INTO `transactionRecord`(`cardNo`,`transactionDate`,`transactionAmount`,`balance`,`transactionType`)
+      VALUES (#{cardNo},#{transactionDate},#{transactionAmount},#{balance},#{transactionType})
+    </insert>
 
+    <!--根据时间范围查询交易记录-->
+    <select id="queryTransactionInfo" resultType="com.pojo.Transaction">
+        SELECT * FROM `transactionRecord` WHERE transactionDate  BETWEEN #{before} AND #{after}
+    </select>
 
 </mapper>

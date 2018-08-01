@@ -17,4 +17,24 @@
           SELECT COUNT(1) FROM `account` WHERE cardNo=#{cardNo} AND `password`=#{password} AND `status`=#{status}
     </select>
 
+    <!--根据卡号查询账户信息-->
+    <select id="queryCardNoAccountInfo" resultType="com.pojo.Account">
+        SELECT `id`,`cardNo`,`password`,`balance`,`status` FROM `account` WHERE `cardNo`=#{cardNo}
+    </select>
+
+    <!--账户转入-->
+    <update id="UpdateInputEnter">
+        UPDATE account SET balance=balance+#{balance} WHERE cardNo=#{cardNo}
+    </update>
+
+    <!--账户转出-->
+    <update id="UpdateInputOut">
+        UPDATE account SET balance=balance-#{balance} WHERE cardNo=#{cardNo}
+    </update>
+
+    <!--根据卡号修改密码-->
+    <update id="updateCardNoPassword">
+        UPDATE account SET `password`=#{password} WHERE cardNo=#{cardNo}
+    </update>
+
 </mapper>

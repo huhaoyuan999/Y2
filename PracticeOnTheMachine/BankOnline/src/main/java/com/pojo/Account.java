@@ -14,6 +14,8 @@ public class Account implements Serializable {
     private float balance;//账户余额
     private Integer status;//账户状态(1 为正常，0 为冻结)
 
+    private String accountNumber;//转入卡号
+
     public Account() {
     }
 
@@ -23,6 +25,14 @@ public class Account implements Serializable {
         this.password = password;
         this.balance = balance;
         this.status = status;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public Integer getId() {
