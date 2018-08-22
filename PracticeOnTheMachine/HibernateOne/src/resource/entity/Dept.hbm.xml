@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <!-- 指定实体类跟表名 -->
+    <!--dynamic-update="true"属性作用是只修改发生变化的属性-->
+    <class name="com.entity.Dept" table="`DEPT`" dynamic-update="true">
+        <!-- 指定这个id为对象标识符(OID) -->
+        <id name="deptno" column="`DEPTNO`" type="java.lang.Byte">
+            <!-- 指定主键的生成策略(这里指定主键有应用程序负责生成(手工赋值),无需Hibernate参与) -->
+            <generator class="assigned"></generator>
+        </id>
+        <!-- 指定属性名，数据库字段，以及数据类型 -->
+        <property name="dname" column="`DNAME`" type="java.lang.String"></property>
+        <!-- 指定属性名，数据库字段，以及数据类型 -->
+        <property name="loc" column="`LOC`" type="java.lang.String"></property>
+    </class>
+
+</hibernate-mapping>

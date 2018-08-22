@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- 一、配置oracle数据库连接-->
+        <!-- 数据库JDBC驱动 -->
+        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <!-- 数据库连接URL -->
+        <property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+        <!-- 数据库连接用户名 -->
+        <property name="connection.username">scott</property>
+        <!-- 数据库连接用密码 -->
+        <property name="connection.password">tiger</property>
+        <!-- 指定要使用的数据库(方言)类型与版本 -->
+        <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <!--使用MySQL配置连接信息-->
+        <!--<property name="connection.url">jdbc:mysql://localhost:3306/hibernate</property>-->
+        <!--<property name="connection.driver_class">com.mysql.jdbc.Driver</property>-->
+        <!--<property name="connection.username">root</property>-->
+        <!--<property name="connection.password">111111</property>-->
+        <!--配置了方言，hibernate才知道如何去进行翻译。 -->
+        <!--<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>-->
+
+
+        <!-- 二、辅助参数配置 -->
+        <!--是否显示SQL语句-->
+        <property name="show_sql">true</property>
+        <!--是否格式化SQL语句-->
+        <!--<property name="format_sql">true</property>-->
+        <!--自动创建表-->
+        <!--<property name="hbm2ddl.auto">create</property>-->
+        <!-- 指定session范围和上下文 -->
+        <property name="current_session_context_class">thread</property>
+
+
+        <!-- 三、 映射信息配置 -->
+        <mapping resource="entity/Dept.hbm.xml" />
+
+    </session-factory>
+</hibernate-configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
